@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gyankshetra - Physics Quiz (01-30Q)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0b132a;
+            --card-bg: #141e33;
+            --card-border: rgba(16, 185, 129, 0.2);
+            --primary-emerald: #10b981;
+            --primary-dark-green: #059669;
+            --accent-yellow: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --option-bg: #1e293b;
+            --option-hover: #334155;
+            --danger-red: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top, #1e293b 0%, #0b132a 100%);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        /* Outer Box Premium Card */
+        .quiz-container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .brand-title {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 800;
+            padding: 10px 24px;
+            border-radius: 12px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .sub-header-box {
+            margin-top: 12px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: var(--primary-emerald);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        /* Rule Marking Boxes */
+        .marking-rules {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .rule-box {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 10px 6px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .rule-box.correct {
+            border-color: rgba(16, 185, 129, 0.4);
+            color: var(--primary-emerald);
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .rule-box.wrong {
+            border-color: rgba(239, 68, 68, 0.4);
+            color: var(--danger-red);
+            background: rgba(239, 68, 68, 0.08);
+        }
+
+        .rule-box.negative {
+            border-color: rgba(245, 158, 11, 0.4);
+            color: var(--accent-yellow);
+            background: rgba(245, 158, 11, 0.08);
+        }
+
+        .input-group { margin: 20px 0; text-align: left; }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 14px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary-emerald);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+        }
+
+        /* Modern Gradient Buttons */
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary-emerald), var(--primary-dark-green));
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #10b981, #047857) !important;
+        }
+
+        .btn-secondary {
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: var(--text-main);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover { background: #334155; }
+
+        .question-box { display: none; }
+
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #1e293b;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary-emerald), var(--accent-yellow));
+            transition: width 0.3s ease;
+        }
+
+        .q-text {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            font-weight: 600;
+            text-align: left;
+        }
+
+        /* Left-Aligned Clean Options */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .option-btn {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: var(--option-bg);
+            border: 1px solid #334155;
+            border-radius: 10px;
+            color: var(--text-main);
+            cursor: pointer;
+            text-align: left;
+            font-size: 13.5px;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover {
+            background: var(--option-hover);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .option-btn.selected {
+            border-color: var(--primary-emerald);
+            background: rgba(16, 185, 129, 0.12);
+            color: #ffffff;
+            font-weight: 600;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+        }
+
+        .badge {
+            background: #0f172a;
+            border: 1px solid #334155;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--primary-emerald);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Compact Scorecard Section */
+        .score-card { display: none; text-align: center; }
+
+        .compact-score-box {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1.5px dashed var(--primary-emerald);
+            border-radius: 14px;
+            padding: 14px;
+            margin: 14px 0;
+        }
+
+        .final-score {
+            font-size: 32px;
+            color: var(--primary-emerald);
+            font-weight: 800;
+            margin-top: 4px;
+        }
+
+        .grid-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 16px 0;
+        }
+
+        .stat-card {
+            background: #0f172a;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            border: 1px solid #1e293b;
+            color: var(--text-muted);
+        }
+
+        .telegram-preview {
+            background: #0f172a;
+            border: 1px dashed #334155;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 11.5px;
+            text-align: left;
+            margin-bottom: 12px;
+            white-space: pre-line;
+            color: var(--text-muted);
+        }
+
+        .review-section {
+            display: none;
+            margin-top: 16px;
+            text-align: left;
+            border-top: 1px solid #334155;
+            padding-top: 14px;
+        }
+
+        .review-card {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .review-card.correct-card { border-left: 4px solid var(--primary-emerald); }
+        .review-card.wrong-card { border-left: 4px solid var(--danger-red); }
+
+        /* Fact- Box Section */
+        .fact-box {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            color: #a7f3d0;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .fact-box b { color: var(--accent-yellow); }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div class="header">
+        <div class="brand-title">Gyankshetra</div>
+        <div class="sub-header-box">
+            📖 अभ्यास क्विज़: भौतिक विज्ञान - बल एवं गति के नियम (01-30Q)
+        </div>
+    </div>
+
+    <!-- Start Screen -->
+    <div id="reg-screen">
+        <div class="marking-rules">
+            <div class="rule-box correct">✔️ सही = +1.0</div>
+            <div class="rule-box wrong">❌ गलत = -0.33</div>
+            <div class="rule-box negative">नेगेटिव = 1/3</div>
+        </div>
+
+        <div class="input-group">
+            <label for="username">आपका नाम (Candidate Name):</label>
+            <input type="text" id="username" placeholder="अपना नाम लिखें...">
+        </div>
+        <button class="btn" onclick="startQuiz()">► Start Quiz</button>
+    </div>
+
+    <!-- Question Screen -->
+    <div id="quiz-screen" class="question-box">
+        <div class="q-header">
+            <span id="q-count">प्रश्न 1/30</span>
+            <span id="timer" style="color:var(--accent-yellow);">⏱ 30:00</span>
+        </div>
+        <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+        </div>
+        <div id="q-text" class="q-text"></div>
+        <div id="options-container" class="options-list"></div>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="prevQuestion()">◄ पीछे</button>
+            <button class="btn btn-next" onclick="nextQuestion()">आगे ➔</button>
+        </div>
+    </div>
+
+    <!-- Scorecard Screen -->
+    <div id="score-screen" class="score-card">
+        <h3 style="color:#fff; font-size:16px;">क्विज़ परिणाम / Scorecard</h3>
+        <p style="margin-top: 4px; color: var(--text-muted); font-size:12px;">Candidate: <span id="res-name" style="color:#fff; font-weight:bold;"></span></p>
+        
+        <div class="compact-score-box">
+            <span style="font-size:11px; font-weight:bold; color: var(--primary-emerald); letter-spacing:0.5px;">TOTAL SCORE</span>
+            <div class="final-score" id="res-score">0.00</div>
+        </div>
+        
+        <div class="grid-stats">
+            <div class="stat-card">कुल प्रश्न<br><b id="res-total" style="font-size: 14px; color:#fff;">30</b></div>
+            <div class="stat-card" style="color:var(--primary-emerald);">✔ सही<br><b id="res-correct" style="font-size: 14px;">0</b></div>
+            <div class="stat-card" style="color:var(--danger-red);">✖ गलत<br><b id="res-wrong" style="font-size: 14px;">0</b></div>
+            <div class="stat-card" style="color:var(--accent-yellow);">➖ छोड़े गए<br><b id="res-skipped" style="font-size: 14px;">0</b></div>
+        </div>
+
+        <div class="telegram-preview" id="tg-preview"></div>
+
+        <button class="btn" style="background: #0284c7; margin-bottom: 8px; font-size:13px;" onclick="shareTelegram()">✈ Telegram पर स्कोर भेजें</button>
+        <button id="btn-review" class="btn btn-secondary" style="margin-bottom: 8px; font-size:13px;" onclick="toggleReviewSection()">🔍 विश्लेषण</button>
+        <button class="btn" style="background: #334155; font-size:13px;" onclick="location.reload()">⟳ पुनः प्रयास करें</button>
+
+        <!-- Dynamic Review Section -->
+        <div id="review-section" class="review-section">
+            <div id="review-card-container"></div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevReviewCard()">◄ पीछे</button>
+                <button class="btn btn-next" onclick="nextReviewCard()">आगे ➔</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const QUIZ_SUBJECT = "भौतिक विज्ञान - बल एवं गति के नियम (01-30Q)";
+
+    const questions = [
+        { q: "1. किसी वस्तु के वेग में परिवर्तन की दर को क्या कहा जाता है?", options: ["चाल (Speed)", "त्वरण (Acceleration)", "संवेग (Momentum)", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "त्वरण एक सदिश राशि है। इसका SI मात्रक m/s² होता है।" },
+        { q: "2. बल (Force) का SI मात्रक क्या है?", options: ["जूल (Joule)", "न्यूटन (Newton)", "पास्कल (Pascal)", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "1 न्यूटन = 1 kg·m/s² होता है।" },
+        { q: "3. वस्तु द्वारा अपनी गति की अवस्था में परिवर्तन का विरोध करने की प्रवृत्ति कहलाती है:", options: ["बल", "जड़त्व (Inertia)", "संवेग", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "द्रव्यमान (Mass) जड़त्व की माप होती है।" },
+        { q: "4. न्यूटन के गति के प्रथम नियम को किस नाम से भी जाना जाता है?", options: ["संवेग नियम", "जड़त्व का नियम", "गुरुत्वाकर्षण नियम", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "प्रथम नियम से बल की परिभाषा मिलती है।" },
+        { q: "5. बस के अचानक रुकने पर यात्री आगे झुक जाते हैं, इसका कारण है:", options: ["विराम का जड़त्व", "गति का जड़त्व", "दिशा का जड़त्व", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "शरीर का ऊपरी हिस्सा गति के जड़त्व के कारण गति में रहना चाहता है।" },
+        { q: "6. द्रव्यमान (m) और वेग (v) के गुणनफल को क्या कहते हैं?", options: ["बल", "संवेग (Momentum)", "आवेग", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "संवेग (p = mv) का SI मात्रक kg·m/s होता है।" },
+        { q: "7. प्रत्येक क्रिया के बराबर और विपरीत प्रतिक्रिया होती है, यह न्यूटन का कौन-सा नियम है?", options: ["प्रथम नियम", "द्वितीय नियम", "तृतीय नियम", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 2, fact: "क्रिया और प्रतिक्रिया बल भिन्न वस्तुओं पर लगते हैं।" },
+        { q: "8. रॉकेट का उड़ना किस सिद्धांत पर कार्य करता है?", options: ["न्यूटन का तृतीय गति नियम", "संवेग संरक्षण का सिद्धांत", "द्रव्यमान संरक्षण", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 3, fact: "यह न्यूटन के तृतीय नियम एवं रेखीय संवेग संरक्षण दोनों पर आधारित है।" },
+        { q: "9. बंदूक से गोली चलाने पर धक्का पीछे लगना उदाहरण है:", options: ["प्रथम नियम का", "द्वितीय नियम का", "तृतीय नियम का", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 2, fact: "गोली पर आगे का बल क्रिया और बंदूक पर पीछे का बल प्रतिक्रिया है।" },
+        { q: "10. संतुलित बलों (Balanced Forces) का परिणामी बल क्या होता है?", options: ["धनात्मक", "ऋणात्मक", "शून्य", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 2, fact: "संतुलित बल गति में परिवर्तन नहीं करते।" },
+        { q: "11. बल का गणितीय सूत्र (F = ma) किस नियम से प्राप्त होता है?", options: ["प्रथम गति नियम", "द्वितीय गति नियम", "तृतीय गति नियम", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "द्वितीय नियम बल का परिमाण/गणितीय सूत्र प्रदान करता है।" },
+        { q: "12. अल्प समय के लिए लगे बड़े बल और समय के गुणनफल को कहते हैं:", options: ["संवेग", "आवेग (Impulse)", "दाब", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "आवेग = F × Δt = संवेग में परिवर्तन।" },
+        { q: "13. क्रिकेट खिलाड़ी कैच लेते समय हाथ पीछे क्यों खींचता है?", options: ["बल बढ़ाने हेतु", "समय बढ़ाकर बल घटाने हेतु", "संवेग बढ़ाने हेतु", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "समय (t) बढ़ने से लगने वाला बल (F) कम हो जाता है।" },
+        { q: "14. निम्नलिखित में से कौन-कौन सी राशियाँ सदिश (Vector) हैं?", options: ["बल (Force)", "त्वरण (Acceleration)", "संवेग (Momentum)", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 3, fact: "बल, त्वरण एवं संवेग तीनों सदिश राशियाँ हैं।" },
+        { q: "15. 5 kg द्रव्यमान पर 20 N का बल लगाने पर उत्पन्न त्वरण कितना होगा?", options: ["2 m/s²", "4 m/s²", "10 m/s²", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "a = F/m = 20/5 = 4 m/s²।" },
+        { q: "16. कालीन को डंडे से पीटने पर धूल कण बाहर निकलते हैं, कारण है:", options: ["गति का जड़त्व", "विराम का जड़त्व", "संवेग संरक्षण", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "धूल कण विराम के जड़त्व के कारण अपनी जगह रहना चाहते हैं।" },
+        { q: "17. अभिकेंद्र बल (Centripetal Force) के संबंध में सही कथन है:", options: ["दिशा केंद्र की ओर होती है", "वृत्तीय गति के लिए अनिवार्य है", "सूत्र F = mv²/r है", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 3, fact: "तीनों कथन अभिकेंद्र बल हेतु सत्य हैं।" },
+        { q: "18. घर्षण बल (Friction Force) के बारे में सत्य कथन चुनें:", options: ["गति के विपरीत दिशा में लगता है", "सतह की प्रकृति पर निर्भर करता है", "असंरक्षी बल है", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 3, fact: "घर्षण बल संपर्क सतहों की प्रकृति एवं गति का विरोध करने पर निर्भर करता है।" },
+        { q: "19. घर्षण गुणांक (μ) का मात्रक क्या होता है?", options: ["न्यूटन", "किलोग्राम", "मीटर/सेकंड", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 4, fact: "घर्षण गुणांक एक मात्रकहीन (Unitless) और बीमाहीन राशि है।" },
+        { q: "20. यदि वस्तु का वेग दोगुना कर दें, तो संवेग कितना होगा?", options: ["आधा", "दोगुना", "चार गुना", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "p ∝ v होने के कारण वेग दोगुना तो संवेग भी दोगुना होगा।" },
+        { q: "21. त्वरण 'a' से ऊपर जाती लिफ्ट में व्यक्ति का आभासी भार क्या होगा?", options: ["m(g - a)", "m(g + a)", "mg", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "ऊपर जाते समय आभासी भार W = m(g + a) बढ़ जाता है।" },
+        { q: "22. मुक्त रूप से गिरती (Free Fall) लिफ्ट में व्यक्ति का आभासी भार होगा:", options: ["वास्तविक भार", "शून्य (Weightlessness)", "दुगुना", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "Free fall में a = g होने से भार W = m(g - g) = 0 होता है।" },
+        { q: "23. 2 kg तथा 4 kg की वस्तुओं का संवेग समान है। किसकी गतिज ऊर्जा अधिक होगी?", options: ["2 kg वाली की", "4 kg वाली की", "दोनों की समान होगी", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 0, fact: "KE = p²/2m (हल्के पिंड की गतिज ऊर्जा अधिक होती है)।" },
+        { q: "24. संवेग संरक्षण नियम किस स्थिति में पूर्णतः लागू होता है?", options: ["जब बाह्य बल F_ext = 0 हो", "केवल घर्षण में", "केवल गुरुत्व में", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 0, fact: "जब कुल परिणामी बाह्य बल शून्य होता है तभी संवेग संरक्षित रहता है।" },
+        { q: "25. मशीन गन से प्रति सेकंड n गोलियाँ v वेग से दागी जाती हैं। औसत बल क्या होगा?", options: ["nmv", "nm/v", "mv/n", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 0, fact: "F = Δp/Δt = nmv होता है।" },
+        { q: "26. घर्षण बल कम करने के उपाय कौन-कौन से हैं?", options: ["स्नेहक (Grease/Oil)", "बॉल बियरिंग", "पॉलिश करना", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 3, fact: "तीनों तरीकों से घर्षण बल को घटाया जा सकता है।" },
+        { q: "27. 1000 kg की कार 20 m/s से चलकर 50 m दूरी पर रुकती है। मंदक बल होगा:", options: ["2000 N", "4000 N", "8000 N", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 1, fact: "a = u²/2s = 400/100 = 4 m/s² ➔ F = ma = 1000 × 4 = 4000 N।" },
+        { q: "28. एकसमान वृत्तीय गति (Uniform Circular Motion) में क्या सत्य है?", options: ["चाल स्थिर रहती है", "दिशा बदलने से वेग बदलता है", "त्वरण सदैव केंद्र की ओर होता है", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 3, fact: "यह एक त्वरित गति का उदाहरण है जिसमें चाल अचर रहती है।" },
+        { q: "29. घर्षण का सही घटता क्रम क्या है?", options: ["स्थैतिक > सर्पी > लोटनिक", "लोटनिक > सर्पी > स्थैतिक", "सर्पी > स्थैतिक > लोटनिक", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 0, fact: "स्थैतिक घर्षण सर्वाधिक और लोटनिक (Rolling) घर्षण सबसे कम होता है।" },
+        { q: "30. अपकेंद्र बल (Centrifugal Force) के बारे में सत्य कथन है:", options: ["यह एक छद्म (Pseudo) बल है", "अजड़त्वीय फ्रेम में महसूस होता है", "वाशिंग मशीन/क्रीम सेपरेटर इसी पर कार्य करते हैं", "उपर्युक्त में से एक से अधिक", "उपर्युक्त में से कोई नहीं"], ans: 3, fact: "अपकेंद्र बल एक काल्पनिक या आभासी बल है।" }
+    ];
+
+    let currentQ = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let username = "";
+    let timeLeft = 1800;
+    let timerInterval;
+    let currentReviewIdx = 0;
+
+    function startQuiz() {
+        const nameInput = document.getElementById("username").value.trim();
+        if(!nameInput) {
+            alert("कृपया अपना नाम दर्ज करें!");
+            return;
+        }
+        username = nameInput;
+        document.getElementById("reg-screen").style.display = "none";
+        document.getElementById("quiz-screen").style.display = "block";
+        loadQuestion();
+        startTimer();
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60);
+            let s = timeLeft % 60;
+            document.getElementById("timer").innerText = `⏱ ${m < 10 ? '0':''}${m}:${s < 10 ? '0':''}${s}`;
+            if(timeLeft <= 0) {
+                clearInterval(timerInterval);
+                finishQuiz();
+            }
+        }, 1000);
+    }
+
+    function loadQuestion() {
+        const q = questions[currentQ];
+        document.getElementById("q-count").innerText = `प्रश्न ${currentQ + 1}/30`;
+        document.getElementById("progress-fill").style.width = `${((currentQ + 1)/questions.length)*100}%`;
+        document.getElementById("q-text").innerText = q.q;
+
+        const optsContainer = document.getElementById("options-container");
+        optsContainer.innerHTML = "";
+
+        const labels = ["A", "B", "C", "D", "E"];
+        q.options.forEach((opt, idx) => {
+            const btn = document.createElement("div");
+            btn.className = `option-btn ${userAnswers[currentQ] === idx ? 'selected' : ''}`;
+            btn.innerHTML = `<span class="badge">${labels[idx]}</span><span>${opt}</span>`;
+            btn.onclick = () => selectOption(idx);
+            optsContainer.appendChild(btn);
+        });
+    }
+
+    function selectOption(idx) {
+        if (userAnswers[currentQ] === idx) {
+            userAnswers[currentQ] = null;
+        } else {
+            userAnswers[currentQ] = idx;
+        }
+        loadQuestion();
+    }
+
+    function nextQuestion() {
+        if(currentQ < questions.length - 1) {
+            currentQ++;
+            loadQuestion();
+        } else {
+            finishQuiz();
+        }
+    }
+
+    function prevQuestion() {
+        if(currentQ > 0) {
+            currentQ--;
+            loadQuestion();
+        }
+    }
+
+    function finishQuiz() {
+        clearInterval(timerInterval);
+        document.getElementById("quiz-screen").style.display = "none";
+        document.getElementById("score-screen").style.display = "block";
+
+        let correct = 0, wrong = 0, skipped = 0;
+
+        userAnswers.forEach((ans, idx) => {
+            if(ans === null) {
+                skipped++;
+            } else if(ans === questions[idx].ans) {
+                correct++;
+            } else {
+                wrong++;
+            }
+        });
+
+        let totalScore = (correct * 1.0) - (wrong * 0.33) - (skipped * 0.33);
+
+        document.getElementById("res-name").innerText = username;
+        document.getElementById("res-score").innerText = totalScore.toFixed(2);
+        document.getElementById("res-total").innerText = questions.length;
+        document.getElementById("res-correct").innerText = correct;
+        document.getElementById("res-wrong").innerText = wrong;
+        document.getElementById("res-skipped").innerText = skipped;
+
+        const tgText = `👤 नाम: ${username}\n📚 विषय: ${QUIZ_SUBJECT}\n🎯 अंक: ${totalScore.toFixed(2)}\n✅ सही: ${correct} | ❌ गलत: ${wrong} | ➖ छोड़े: ${skipped}`;
+        document.getElementById("tg-preview").innerText = tgText;
+    }
+
+    function renderSingleReviewCard(idx) {
+        const container = document.getElementById("review-card-container");
+        container.innerHTML = "";
+
+        const q = questions[idx];
+        const userAns = userAnswers[idx];
+        const isCorrect = userAns === q.ans;
+        const isSkipped = userAns === null;
+        const labels = ["A", "B", "C", "D", "E"];
+
+        const card = document.createElement("div");
+        card.className = `review-card ${isCorrect ? 'correct-card' : 'wrong-card'}`;
+
+        let statusText = isCorrect 
+            ? "<span style='color:var(--primary-emerald); font-weight:bold;'>✔ सही (Correct)</span>"
+            : (isSkipped ? "<span style='color:var(--danger-red); font-weight:bold;'>➖ नहीं चुना (-0.33)</span>" : "<span style='color:var(--danger-red); font-weight:bold;'>✖ गलत (-0.33)</span>");
+
+        const userChoiceText = isSkipped ? "कोई विकल्प नहीं चुना गया" : `${labels[userAns]}. ${q.options[userAns]}`;
+        const correctChoiceText = `${labels[q.ans]}. ${q.options[q.ans]}`;
+
+        let factBox = `
+            <div class="fact-box">
+                <b>Fact-</b> ${q.fact}
+            </div>
+        `;
+
+        card.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #334155; padding-bottom:6px; margin-bottom:10px;">
+                <span>${statusText}</span>
+                <span style="color:var(--accent-yellow); font-weight:bold;">प्रश्न ${idx + 1} / ${questions.length}</span>
+            </div>
+            <div style="font-weight:700; font-size:14px; margin-bottom: 8px; color:var(--text-main); text-align:left;">${q.q}</div>
+            <div style="color:var(--text-muted); margin-top:4px;">आपका उत्तर: <span style="color:${isCorrect ? 'var(--primary-emerald)' : 'var(--danger-red)'}">${userChoiceText}</span></div>
+            <div style="color:var(--text-muted); margin-top:4px;">सही उत्तर: <span style="color:var(--primary-emerald)">${correctChoiceText}</span></div>
+            ${factBox}
+        `;
+
+        container.appendChild(card);
+    }
+
+    function toggleReviewSection() {
+        const rev = document.getElementById("review-section");
+        const btn = document.getElementById("btn-review");
+        
+        if (rev.style.display === "block") {
+            rev.style.display = "none";
+            btn.innerText = "🔍 विश्लेषण";
+        } else {
+            rev.style.display = "block";
+            btn.innerText = "✖ विश्लेषण छुपाएं";
+            currentReviewIdx = 0;
+            renderSingleReviewCard(currentReviewIdx);
+            rev.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    function nextReviewCard() {
+        if (currentReviewIdx < questions.length - 1) {
+            currentReviewIdx++;
+            renderSingleReviewCard(currentReviewIdx);
+        }
+    }
+
+    function prevReviewCard() {
+        if (currentReviewIdx > 0) {
+            currentReviewIdx--;
+            renderSingleReviewCard(currentReviewIdx);
+        }
+    }
+
+    function shareTelegram() {
+        const text = encodeURIComponent(document.getElementById("tg-preview").innerText);
+        window.open(`https://t.me/share/url?url=&text=${text}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
